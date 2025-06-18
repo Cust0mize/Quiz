@@ -13,7 +13,7 @@ public class QuizPanel : MonoBehaviour {
     public void Init(QuizPanelModel quizPanelModel) {
         OnSelectAnswer += SelectAnswer;
         _levelLabelTextUI.text = $"Level {quizPanelModel.LevelIndex}";
-        _quizQuestionTextUI.text = quizPanelModel.AnswerText;
+        _quizQuestionTextUI.text = quizPanelModel.QuestionText;
         _questionImageUI.sprite = quizPanelModel.Sprite;
         _answerPanel.Init(quizPanelModel.AnswerModels, OnSelectAnswer);
     }
@@ -24,6 +24,3 @@ public class QuizPanel : MonoBehaviour {
         Debug.Log($"Secelt {arg1},{arg2}");
     }
 }
-
-
-//Заблокировать нажатия на кнопку, при нажатии на любую кнопку
