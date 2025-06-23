@@ -1,17 +1,34 @@
 using Game.Quiz.Scripts;
 using UnityEngine;
+using System;
 
 public class GameEntryPoint : MonoBehaviour {
     [SerializeField] private QuizLevelConfig _quizLevelConfig;
     [SerializeField] private QuizPanel _quizPanel;
+    private int _levelIndex;
 
     public void Start() {
-        int randomLevelIndex = Random.Range(0, _quizLevelConfig.QuizElementConfigsCount);
-        QuizElementConfig randomLevelConfig = _quizLevelConfig.GetElementByIndex(randomLevelIndex);
-        QuizPanelModel levelPanelModel = QuizElementPanelModelGenerator.GetQuizElementModelByConfig(randomLevelConfig, randomLevelIndex);
-        _quizPanel.Init(levelPanelModel);
+        CreateLevel();
+    }
+
+    private void CreateLevel() {
+        QuizElementConfig randomLevelConfig = _quizLevelConfig.GetElementByIndex(_levelIndex);
+        QuizPanelModel levelPanelModel = QuizElementPanelModelGenerator.GetQuizElementModelByConfig(randomLevelConfig, _levelIndex);
+        Action<bool> onPanelClick = null;
+        onPanelClick += AnswerHandle;
+        _quizPanel.Init(levelPanelModel, onPanelClick);
+    }
+
+    private void AnswerHandle(bool isCorrect) {
+        _quizPanel.DisablePanel();
+
+        if (_levelIndex >= _quizLevelConfig.QuizElementConfigsCount - 1) {
+            Debug.Log("End level");
+        }
+        else {
+            _levelIndex++;
+        }
+
+        CreateLevel();
     }
 }
-
-//Написать логику по загрузке уровня и инициализации панели этим уровнем
-//Уровень надо получать рандомно из конфига

@@ -9,13 +9,11 @@ public class Answer : MonoBehaviour {
 
     private AnswerModel _answerModel;
     private bool _isCorrect;
-    private int _index;
 
-    private event Action<int, bool> OnClick;
+    private event Action<bool> OnClick;
 
-    public void Init(AnswerModel answerModel, int i, Action<int, bool> onSelectAnswer) {
+    public void Init(AnswerModel answerModel, Action<bool> onSelectAnswer) {
         OnClick = onSelectAnswer;
-        _index = i;
         _answerModel = answerModel;
         _answerTextUI.text = _answerModel.AnswerText;
         _isCorrect = _answerModel.IsCorrect;
@@ -23,7 +21,7 @@ public class Answer : MonoBehaviour {
     }
 
     private void ButtonClick() {
-        OnClick?.Invoke(_index, _isCorrect);
+        OnClick?.Invoke(_isCorrect);
     }
 
     public void Disable() {
